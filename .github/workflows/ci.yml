@@ -28,10 +28,10 @@ jobs:
       - name: Build Docker image
         working-directory: ./src/api
         run: |
-          docker build -t ghcr.io/FastGlory/Laboratoire_Kubernetes:${{ github.sha }} .
+          docker build -t ghcr.io/FastGlory/laboratoire_kubernetes:${{ github.sha }} .
 
       - name: Login to GHCR
         run: echo ${{ secrets.GHCR_TOKEN }} | docker login ghcr.io -u FastGlory --password-stdin
 
       - name: Push Docker image
-        run: docker push ghcr.io/FastGlory/Laboratoire_Kubernetes:${{ github.sha }}
+        run: docker push ghcr.io/FastGlory/laboratoire_kubernetes:${{ github.sha }}
