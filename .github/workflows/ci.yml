@@ -1,0 +1,37 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - "main"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up JDK
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Build JAR
+        working-directory: ./src/api
+        run: mvn clean package -DskipTests
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+
+      - name: Build Docker image
+        working-directory: ./src/api
+        run: |
+          docker build -t ghcr.io/FastGlory/Laboratoire_Kubernetes:${{ github.sha }} .
+
+      - name: Login to GHCR
+        run: echo ${{ secrets.GHCR_TOKEN }} | docker login ghcr.io -u FastGlory --password-stdin
+
+      - name: Push Docker image
+        run: docker push ghcr.io/FastGlory/Laboratoire_Kubernetes:${{ github.sha }}
