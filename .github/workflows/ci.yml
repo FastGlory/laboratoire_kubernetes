@@ -31,7 +31,7 @@ jobs:
           docker build -t ghcr.io/fastglory/laboratoire_kubernetes:${{ github.sha }} .
 
       - name: Login to GHCR
-        run: echo ${{ secrets.GHCR_TOKEN }} | docker login ghcr.io -u FastGlory --password-stdin
+        run: echo ${{ secrets.GHCR_TOKEN }} | docker login ghcr.io -u fastglory --password-stdin
 
       - name: Push Docker image
         run: docker push ghcr.io/fastglory/laboratoire_kubernetes:${{ github.sha }}
